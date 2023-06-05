@@ -6,7 +6,7 @@ public class SomeBadCode {
     public void someBadCode() {
         System.out.println("This is some bad code");
 
-        Date date = new Date(2020, 1, 1);
+        Date date = new Date(2020, 1, 4);
         System.out.println(date);
     }
 }
