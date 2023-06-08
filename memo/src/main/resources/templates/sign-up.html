@@ -61,7 +61,12 @@
       <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
             class="text-danger"></span>
     </div>
-    <button type="submit" class="btn btn-primary">Sign Up</button>
+    <div class="d-flex justify-content-between">
+      <button type="submit" class="btn btn-primary">Sign Up</button>
+      <button onclick="location.href='/members/login'" type="button"
+              class="btn btn-secondary">Back to Login
+      </button>
+    </div>
   </form>
 </div>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
