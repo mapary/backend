@@ -4,12 +4,51 @@
   <title>Sign Up</title>
   <link rel="stylesheet"
         href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <style>
+    /* Add your custom CSS here */
+    body {
+      background: #f8f9fa;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .form-control {
+      border-radius: 20px;
+    }
+
+    .btn {
+      border-radius: 20px;
+    }
+
+    /* Animation */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .text-danger {
+      animation: fadeIn 1s ease-out forwards;
+    }
+  </style>
 </head>
 <body>
 <div class="container">
-  <h2>Sign Up</h2>
+  <h2 class="mb-3">Sign Up</h2>
   <form action="#" th:action="@{/members/signup}" method="post" th:object="${member}"
-        th:validate="true">
+        th:validate="true" class="border p-5 rounded shadow">
     <div class="form-group">
       <label for="email">Email</label>
       <input type="text" id="email" class="form-control" th:field="*{email}" placeholder="Email">
