@@ -16,7 +16,7 @@ spring:
         registration:
           kakao:
             client-id: ENC(o1309Z71MOOhCdlgCjmgyNGw9CKuIB1RIzkO0ToqSCJbgOIaxZNfD40POQZks7uU)
-            redirect-uri: ENC(cM9H09XiWMFZdTaQ+ZYrCVUrC9fsFSfynIUACFf74Cu9DwHK5JPr0DwrC9ho0QwFKGc8FHCkczmj3P4yRqflmU+U7H98wt5c)
+            redirect-uri: ENC(fJ9i1xjodH6Nlx9YkgopJ5f75ojSiMfXW1XtIDvXMXa/NUywc8A3gWg9/h2UebrWH0eK0wHIpREzMPFVjhn8OHLnmvnVXIXv)
             client-authentication-method: POST
             authorization-grant-type: authorization_code
             client-name: Kakao
