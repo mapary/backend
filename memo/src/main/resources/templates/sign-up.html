@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Sign Up</title>
+  <link rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+  <h2>Sign Up</h2>
+  <form action="#" th:action="@{/members/signup}" method="post" th:object="${member}"
+        th:validate="true">
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="text" id="email" class="form-control" th:field="*{email}" placeholder="Email">
+      <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" class="form-control" th:field="*{password}"
+             placeholder="Password">
+      <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+            class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Sign Up</button>
+  </form>
+</div>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

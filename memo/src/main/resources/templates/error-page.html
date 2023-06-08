@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Error</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+  <div class="jumbotron mt-5">
+    <h1 class="display-4">Oops, something went wrong!</h1>
+    <p class="lead" th:text="${error}"></p>
+    <hr class="my-4">
+    <p>Return to the home page or try again later.</p>
+    <a class="btn btn-primary btn-lg" href="/" role="button">Home</a>
+  </div>
+</div>
+</body>
+</html>
