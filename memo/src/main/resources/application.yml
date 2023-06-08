@@ -3,8 +3,33 @@ spring:
     console:
       enabled: true
       path: /h2-console
+      settings:
+        web-allow-others: true
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:test
     username: sa
     password:
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: ENC(o1309Z71MOOhCdlgCjmgyNGw9CKuIB1RIzkO0ToqSCJbgOIaxZNfD40POQZks7uU)
+            redirect-uri: ENC(cM9H09XiWMFZdTaQ+ZYrCVUrC9fsFSfynIUACFf74Cu9DwHK5JPr0DwrC9ho0QwFKGc8FHCkczmj3P4yRqflmU+U7H98wt5c)
+            client-authentication-method: POST
+            authorization-grant-type: authorization_code
+            client-name: Kakao
+            scope:
+              - profile_nickname
+              - account_email
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+jasypt:
+  encryptor:
+    algorithm: PBEWithMD5AndDES
+    iv-generator-classname: org.jasypt.iv.NoIvGenerator
