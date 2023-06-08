@@ -2,6 +2,8 @@ package com.example.memo.config;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
+import com.example.memo.config.oauth.CustomOAuth2UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,7 +16,10 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final CustomOAuth2UserService customOAuth2UserService;
 
     @Bean
     public static PasswordEncoder passwordEncoder() {
@@ -43,6 +48,14 @@ public class SecurityConfig {
                 .logoutSuccessUrl("/"))
             .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
+            .oauth2Login(oauth2 -> oauth2
+                .userInfoEndpoint(userInfo -> userInfo
+                    .userService(customOAuth2UserService))
+                .authorizationEndpoint(authorization -> authorization
+                    .baseUri("/members/login/oauth2/authorize"))
+                .redirectionEndpoint(redirection -> redirection
+                    .baseUri("/members/login/oauth2/code/{code}"))
+            )
             .build();
     }
 }
