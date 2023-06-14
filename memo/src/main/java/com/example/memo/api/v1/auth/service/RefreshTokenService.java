@@ -29,9 +29,8 @@ public class RefreshTokenService {
 
     @Transactional
     public Long save(String email, String token) {
-        var member = memberService.findByEmail(email);
         var refreshToken = RefreshToken.builder()
-                .member(member)
+                .member(memberService.findByEmail(email))
                 .token(hashToken(token))
                 .expiryDate(Instant.now().plusMillis(tokenProvider.REFRESH_TOKEN_EXPIRE_TIME))
                 .build();
@@ -49,20 +48,26 @@ public class RefreshTokenService {
     }
 
     public boolean validateToken(String token) {
-        if (!tokenProvider.validateToken(token)) {
-            return false;
-        }
+        return isTokenValid(token) && isTokenStored(token) && isTokenNotExpired(token);
+    }
 
-        // 토큰이 DB에 저장되어 있는지 검증
+    private boolean isTokenValid(String token) {
+        return tokenProvider.validateToken(token);
+    }
+
+    private boolean isTokenStored(String token) {
         String username = tokenProvider.getUsernameFromToken(token);
         Member member = memberService.findByEmail(username);
         var refreshToken = refreshTokenRepository.findByMemberAndToken(member, hashToken(token));
-        if (refreshToken.isEmpty()) {
-            return false;
-        }
+        return refreshToken.isPresent();
+    }
 
-        // 토큰이 만료되지 않았는지 검증
-        Instant expiryDate = refreshToken.get().getExpiryDate();
-        return !expiryDate.isBefore(Instant.now());
+    private boolean isTokenNotExpired(String token) {
+        String username = tokenProvider.getUsernameFromToken(token);
+        Member member = memberService.findByEmail(username);
+        var refreshToken = refreshTokenRepository.findByMemberAndToken(member, hashToken(token));
+        return refreshToken
+                .filter(value -> !value.getExpiryDate().isBefore(Instant.now()))
+                .isPresent();
     }
 }
