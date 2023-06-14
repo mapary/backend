@@ -1,7 +1,5 @@
 package com.example.memo.config.security;
 
-import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
-
 import com.example.memo.config.security.jwt.JwtAccessDeniedHandler;
 import com.example.memo.config.security.jwt.JwtAuthTokenFilter;
 import com.example.memo.config.security.jwt.JwtAuthenticationEntryPoint;
@@ -19,6 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.CorsFilter;
+
+import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
 @Configuration
 @EnableWebSecurity
@@ -38,22 +38,22 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain restApiFilterChain(final HttpSecurity http) throws Exception {
         return http
-            .authorizeHttpRequests(
-                auth -> auth
-                    .requestMatchers("/api/*/auth/**").permitAll()
-                    .requestMatchers(toH2Console()).permitAll()
-                    .anyRequest().authenticated()
-            )
-            .csrf(AbstractHttpConfigurer::disable)
-            .headers(headers -> headers
-                .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
-            .exceptionHandling(handler -> handler
-                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                .accessDeniedHandler(jwtAccessDeniedHandler))
-            .sessionManagement(session -> session
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
-            .addFilterBefore(new JwtAuthTokenFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
-            .build();
+                .authorizeHttpRequests(
+                        auth -> auth
+                                .requestMatchers("/api/auth/**").permitAll()
+                                .requestMatchers(toH2Console()).permitAll()
+                                .anyRequest().authenticated()
+                )
+                .csrf(AbstractHttpConfigurer::disable)
+                .headers(headers -> headers
+                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
+                .exceptionHandling(handler -> handler
+                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                        .accessDeniedHandler(jwtAccessDeniedHandler))
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtAuthTokenFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
+                .build();
     }
 }

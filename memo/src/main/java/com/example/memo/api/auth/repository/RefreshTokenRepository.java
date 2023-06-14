@@ -1,10 +1,11 @@
-package com.example.memo.api.v1.auth.repository;
+package com.example.memo.api.auth.repository;
 
-import com.example.memo.api.v1.auth.domain.RefreshToken;
+import com.example.memo.api.auth.domain.RefreshToken;
 import com.example.memo.web.member.domain.Member;
-import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 @Repository
 public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long> {

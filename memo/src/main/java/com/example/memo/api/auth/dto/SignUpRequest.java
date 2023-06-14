@@ -1,5 +1,6 @@
-package com.example.memo.api.v1.auth.dto;
+package com.example.memo.api.auth.dto;
 
+import com.example.memo.validator.PasswordConstraint;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
@@ -9,18 +10,17 @@ import org.hibernate.validator.constraints.Length;
 
 @Getter
 @Setter
-public class SignInRequest {
+public class SignUpRequest {
     @NotEmpty
     @Email
     @Length(max = 32)
     private String email;
 
-    @NotEmpty
-    @Length(min = 8, max = 20)
+    @PasswordConstraint
     private String password;
 
     @Builder
-    public SignInRequest(String email, String password) {
+    public SignUpRequest(String email, String password) {
         this.email = email;
         this.password = password;
     }

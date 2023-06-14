@@ -1,6 +1,6 @@
 package com.example.memo.web.member.service;
 
-import com.example.memo.api.v1.auth.dto.SignUpRequest;
+import com.example.memo.api.auth.dto.SignUpRequest;
 import com.example.memo.exception.DuplicateMemberException;
 import com.example.memo.exception.MemberNotFoundException;
 import com.example.memo.web.member.domain.Member;
@@ -25,9 +25,9 @@ public class MemberService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws MemberNotFoundException {
         var member = memberRepository.findByEmailOrThrow(username);
         return User.builder()
-            .username(member.getEmail())
-            .password(member.getPassword())
-            .build();
+                .username(member.getEmail())
+                .password(member.getPassword())
+                .build();
     }
 
     @Transactional
@@ -44,6 +44,6 @@ public class MemberService implements UserDetailsService {
 
     public Member findByEmail(String email) {
         return memberRepository.findByEmail(email)
-            .orElseThrow(MemberNotFoundException::new);
+                .orElseThrow(MemberNotFoundException::new);
     }
 }

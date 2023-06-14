@@ -1,4 +1,4 @@
-package com.example.memo.api.v1.auth.dto;
+package com.example.memo.api.auth.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;

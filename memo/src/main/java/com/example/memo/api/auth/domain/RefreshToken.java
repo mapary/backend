@@ -1,4 +1,4 @@
-package com.example.memo.api.v1.auth.domain;
+package com.example.memo.api.auth.domain;
 
 import com.example.memo.web.member.domain.Member;
 import jakarta.persistence.*;

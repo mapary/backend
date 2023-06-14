@@ -1,4 +1,4 @@
-package com.example.memo.api.v1.test.controller;
+package com.example.memo.api.test.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

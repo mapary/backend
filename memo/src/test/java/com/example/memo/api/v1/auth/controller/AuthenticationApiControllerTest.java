@@ -1,9 +1,9 @@
 package com.example.memo.api.v1.auth.controller;
 
-import com.example.memo.api.v1.auth.dto.RefreshTokenRequest;
-import com.example.memo.api.v1.auth.dto.SignInRequest;
-import com.example.memo.api.v1.auth.dto.SignUpRequest;
-import com.example.memo.api.v1.auth.service.RefreshTokenService;
+import com.example.memo.api.auth.dto.RefreshTokenRequest;
+import com.example.memo.api.auth.dto.SignInRequest;
+import com.example.memo.api.auth.dto.SignUpRequest;
+import com.example.memo.api.auth.service.RefreshTokenService;
 import com.example.memo.config.security.jwt.JwtAuthTokenFilter;
 import com.example.memo.config.security.jwt.JwtTokenProvider;
 import com.example.memo.web.member.domain.Member;

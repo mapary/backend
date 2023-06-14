@@ -1,7 +1,7 @@
-package com.example.memo.api.v1.auth.service;
+package com.example.memo.api.auth.service;
 
-import com.example.memo.api.v1.auth.domain.RefreshToken;
-import com.example.memo.api.v1.auth.repository.RefreshTokenRepository;
+import com.example.memo.api.auth.domain.RefreshToken;
+import com.example.memo.api.auth.repository.RefreshTokenRepository;
 import com.example.memo.config.security.jwt.JwtTokenProvider;
 import com.example.memo.web.member.domain.Member;
 import com.example.memo.web.member.service.MemberService;

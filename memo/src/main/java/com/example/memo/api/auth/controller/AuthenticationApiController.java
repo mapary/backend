@@ -1,9 +1,11 @@
-package com.example.memo.api.v1.auth.controller;
+package com.example.memo.api.auth.controller;
 
-import com.example.memo.api.v1.auth.dto.RefreshTokenRequest;
-import com.example.memo.api.v1.auth.dto.SignInRequest;
-import com.example.memo.api.v1.auth.dto.SignUpRequest;
-import com.example.memo.api.v1.auth.service.RefreshTokenService;
+import com.example.memo.api.auth.dto.RefreshTokenRequest;
+import com.example.memo.api.auth.dto.SignInRequest;
+import com.example.memo.api.auth.dto.SignUpRequest;
+import com.example.memo.api.auth.service.RefreshTokenService;
+import com.example.memo.api.common.dto.ApiResponse;
+import com.example.memo.api.common.exception.InvalidTokenException;
 import com.example.memo.config.security.jwt.JwtAuthTokenFilter;
 import com.example.memo.config.security.jwt.JwtTokenProvider;
 import com.example.memo.web.member.service.MemberService;
@@ -22,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthenticationApiController {
     private final JwtTokenProvider tokenProvider;
@@ -62,7 +64,10 @@ public class AuthenticationApiController {
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest request) {
         try {
             memberService.save(request);
-            return ResponseEntity.ok().body("User registered successfully!");
+            return ResponseEntity.ok().body(ApiResponse.builder()
+                    .message("회원가입에 성공했습니다.")
+                    .status("success")
+                    .build());
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Registration failed!");
         }
@@ -95,7 +100,7 @@ public class AuthenticationApiController {
 
     private void validateRefreshToken(String token) {
         if (!refreshTokenService.validateToken(token)) {
-            throw new RuntimeException("Invalid refresh token");
+            throw new InvalidTokenException();
         }
     }
 
