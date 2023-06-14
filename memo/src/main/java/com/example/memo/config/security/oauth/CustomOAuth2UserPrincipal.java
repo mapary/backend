@@ -1,7 +1,7 @@
 package com.example.memo.config.oauth;
 
 import com.example.memo.config.oauth.userinfo.CustomOAuth2UserInfo;
-import com.example.memo.member.domain.Member;
+import com.example.memo.web.member.domain.Member;
 import java.util.Collections;
 import java.util.Map;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

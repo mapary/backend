@@ -1,8 +1,8 @@
 package com.example.memo.config.oauth;
 
 import com.example.memo.config.oauth.userinfo.CustomOAuth2UserInfo;
-import com.example.memo.member.domain.Member;
-import com.example.memo.member.repository.MemberRepository;
+import com.example.memo.web.member.domain.Member;
+import com.example.memo.web.member.repository.MemberRepository;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
