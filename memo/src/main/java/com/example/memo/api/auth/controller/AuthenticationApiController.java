@@ -5,14 +5,14 @@ import com.example.memo.api.auth.dto.SignInRequest;
 import com.example.memo.api.auth.dto.SignUpRequest;
 import com.example.memo.api.auth.service.RefreshTokenService;
 import com.example.memo.api.common.dto.ApiResponse;
-import com.example.memo.api.common.exception.InvalidTokenException;
+import com.example.memo.api.common.exceptions.AuthException;
+import com.example.memo.api.common.exceptions.ErrorCode;
 import com.example.memo.api.member.service.MemberService;
 import com.example.memo.config.security.jwt.JwtAuthTokenFilter;
 import com.example.memo.config.security.jwt.JwtTokenProvider;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -62,15 +62,8 @@ public class AuthenticationApiController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest request) {
-        try {
-            memberService.save(request);
-            return ResponseEntity.ok().body(ApiResponse.builder()
-                    .message("회원가입에 성공했습니다.")
-                    .status("success")
-                    .build());
-        } catch (Exception ex) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Registration failed!");
-        }
+        memberService.save(request);
+        return ResponseEntity.ok().body(ApiResponse.builder().message("회원가입에 성공했습니다.").status("success").build());
     }
 
     private ResponseEntity<JwtTokens> createResponseEntity(String accessToken, String refreshToken) {
@@ -100,7 +93,7 @@ public class AuthenticationApiController {
 
     private void validateRefreshToken(String token) {
         if (!refreshTokenService.validateToken(token)) {
-            throw new InvalidTokenException();
+            throw new AuthException(ErrorCode.INVALID_TOKEN);
         }
     }
 

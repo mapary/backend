@@ -81,7 +81,7 @@ class AuthenticationApiControllerTest {
         given(tokenProvider.createAccessToken(any())).willReturn("mocked-access-token");
         given(tokenProvider.createRefreshToken(any())).willReturn("mocked-refresh-token");
 
-        mockMvc.perform(post("/api/v1/auth/login")
+        mockMvc.perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(signInRequest)))
                 .andExpect(status().isOk())
@@ -111,7 +111,7 @@ class AuthenticationApiControllerTest {
         given(tokenProvider.createRefreshToken(any())).willReturn("mocked-refresh-token");
         given(refreshTokenService.validateToken(any())).willReturn(true);
 
-        mockMvc.perform(post("/api/v1/auth/reissue")
+        mockMvc.perform(post("/api/auth/reissue")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(request)))
                 .andExpect(status().isOk())
@@ -132,7 +132,7 @@ class AuthenticationApiControllerTest {
                 .password(password)
                 .build();
 
-        mockMvc.perform(post("/api/v1/auth/signup")
+        mockMvc.perform(post("/api/auth/signup")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(request)))
                 .andExpect(status().isOk())
