@@ -1,7 +1,7 @@
 package com.example.memo.api.auth.repository;
 
 import com.example.memo.api.auth.domain.RefreshToken;
-import com.example.memo.web.member.domain.Member;
+import com.example.memo.api.member.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

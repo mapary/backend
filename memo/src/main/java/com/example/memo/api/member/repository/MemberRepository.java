@@ -1,9 +1,10 @@
-package com.example.memo.web.member.repository;
+package com.example.memo.api.member.repository;
 
+import com.example.memo.api.member.domain.Member;
 import com.example.memo.exception.MemberNotFoundException;
-import com.example.memo.web.member.domain.Member;
-import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
@@ -11,7 +12,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     default Member findByEmailOrThrow(String email) {
         return findByEmail(email)
-            .orElseThrow(MemberNotFoundException::new);
+                .orElseThrow(MemberNotFoundException::new);
     }
 }
 

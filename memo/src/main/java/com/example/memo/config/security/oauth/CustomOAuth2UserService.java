@@ -1,10 +1,8 @@
 package com.example.memo.config.security.oauth;
 
+import com.example.memo.api.member.domain.Member;
+import com.example.memo.api.member.repository.MemberRepository;
 import com.example.memo.config.security.oauth.userinfo.CustomOAuth2UserInfo;
-import com.example.memo.web.member.domain.Member;
-import com.example.memo.web.member.repository.MemberRepository;
-import java.util.Optional;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,6 +11,9 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -32,9 +33,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         Optional<Member> foundMember = memberRepository.findByEmail(userInfo.getEmail());
         if (foundMember.isEmpty()) {
             Member member = Member.builder()
-                .email(userInfo.getEmail())
-                .password(createDummyPassword())
-                .build();
+                    .email(userInfo.getEmail())
+                    .password(createDummyPassword())
+                    .build();
             member.encodePassword(passwordEncoder);
             memberRepository.save(member);
             return new CustomOAuth2UserPrincipal(member, userInfo);
