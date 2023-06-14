@@ -1,6 +1,6 @@
-package com.example.memo.config.oauth.userinfo;
+package com.example.memo.config.security.oauth.userinfo;
 
-import com.example.memo.config.exception.UnsupportedOAuth2ProviderException;
+import com.example.memo.exception.UnsupportedOAuth2ProviderException;
 import java.util.Map;
 
 public abstract class CustomOAuth2UserInfo {

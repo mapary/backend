@@ -1,4 +1,4 @@
-package com.example.memo.config.validator;
+package com.example.memo.validator;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

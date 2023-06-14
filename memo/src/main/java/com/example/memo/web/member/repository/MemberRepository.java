@@ -1,7 +1,7 @@
-package com.example.memo.member.repository;
+package com.example.memo.web.member.repository;
 
-import com.example.memo.config.exception.MemberNotFoundException;
-import com.example.memo.member.domain.Member;
+import com.example.memo.exception.MemberNotFoundException;
+import com.example.memo.web.member.domain.Member;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 

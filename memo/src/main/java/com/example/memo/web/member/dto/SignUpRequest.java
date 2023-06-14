@@ -1,6 +1,6 @@
-package com.example.memo.member.dto;
+package com.example.memo.web.member.dto;
 
-import com.example.memo.config.validator.PasswordConstraint;
+import com.example.memo.validator.PasswordConstraint;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

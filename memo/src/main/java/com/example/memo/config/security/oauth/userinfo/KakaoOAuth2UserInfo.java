@@ -1,4 +1,4 @@
-package com.example.memo.config.oauth.userinfo;
+package com.example.memo.config.security.oauth.userinfo;
 
 import static com.example.memo.utils.ConvertUtils.uncheckedCast;
 

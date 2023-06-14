@@ -1,4 +1,4 @@
-package com.example.memo.member.domain;
+package com.example.memo.web.member.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -1,4 +1,4 @@
-package com.example.memo.config.oauth.userinfo;
+package com.example.memo.config.security.oauth.userinfo;
 
 public enum CustomOAuth2Provider {
     KAKAO("kakao");

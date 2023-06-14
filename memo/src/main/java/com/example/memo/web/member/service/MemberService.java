@@ -1,10 +1,10 @@
-package com.example.memo.member.service;
+package com.example.memo.web.member.service;
 
-import com.example.memo.config.exception.DuplicateMemberException;
-import com.example.memo.config.exception.MemberNotFoundException;
-import com.example.memo.member.domain.Member;
-import com.example.memo.member.dto.SignUpRequest;
-import com.example.memo.member.repository.MemberRepository;
+import com.example.memo.exception.DuplicateMemberException;
+import com.example.memo.exception.MemberNotFoundException;
+import com.example.memo.web.member.domain.Member;
+import com.example.memo.web.member.dto.SignUpRequest;
+import com.example.memo.web.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;

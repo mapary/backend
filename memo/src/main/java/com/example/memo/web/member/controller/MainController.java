@@ -1,4 +1,4 @@
-package com.example.memo.member.controller;
+package com.example.memo.web.member.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

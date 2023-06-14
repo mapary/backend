@@ -1,6 +1,6 @@
-package com.example.memo.config.oauth;
+package com.example.memo.config.security.oauth;
 
-import com.example.memo.config.oauth.userinfo.CustomOAuth2UserInfo;
+import com.example.memo.config.security.oauth.userinfo.CustomOAuth2UserInfo;
 import com.example.memo.web.member.domain.Member;
 import java.util.Collections;
 import java.util.Map;

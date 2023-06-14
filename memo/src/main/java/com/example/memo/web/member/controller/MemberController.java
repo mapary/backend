@@ -1,8 +1,8 @@
-package com.example.memo.member.controller;
+package com.example.memo.web.member.controller;
 
-import com.example.memo.config.exception.DuplicateMemberException;
-import com.example.memo.member.dto.SignUpRequest;
-import com.example.memo.member.service.MemberService;
+import com.example.memo.exception.DuplicateMemberException;
+import com.example.memo.web.member.dto.SignUpRequest;
+import com.example.memo.web.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
