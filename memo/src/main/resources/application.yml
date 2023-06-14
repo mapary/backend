@@ -33,9 +33,10 @@ jasypt:
   encryptor:
     algorithm: PBEWithMD5AndDES
     iv-generator-classname: org.jasypt.iv.NoIvGenerator
+    password: ${JASYPT_PASSWORD}
 
 security:
   jwt:
-    access-expiration-time: 60000
+    access-expiration-time: 86400000
     refresh-expiration-time: 604800000
     base64-secret: ENC(yEH9PwnU+Kwh3kgFqF7EH8MvHXLJnh+1lMue5ttWCR2Zs/edNol2UPoqLgYX9FFiXM6cX05EnroRBsjvu5mqEEZ2GydqIhQxDrYM6kdSLOX5dLq1uNZFojZaTjb17HD4uaXkpIrNa58=)

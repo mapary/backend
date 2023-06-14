@@ -53,5 +53,7 @@ tasks.named('test') {
 
 tasks.named('asciidoctor') {
     inputs.dir snippetsDir
+    sourceDir 'src/docs/asciidoc'
+    attributes 'snippets': snippetsDir
     dependsOn test
 }

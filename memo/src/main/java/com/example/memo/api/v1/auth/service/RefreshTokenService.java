@@ -6,13 +6,14 @@ import com.example.memo.config.security.jwt.JwtTokenProvider;
 import com.example.memo.web.member.domain.Member;
 import com.example.memo.web.member.service.MemberService;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
 import java.util.Base64;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -30,10 +31,10 @@ public class RefreshTokenService {
     public Long save(String email, String token) {
         var member = memberService.findByEmail(email);
         var refreshToken = RefreshToken.builder()
-            .member(member)
-            .token(hashToken(token))
-            .expiryDate(Instant.now().plusMillis(tokenProvider.REFRESH_TOKEN_EXPIRE_TIME))
-            .build();
+                .member(member)
+                .token(hashToken(token))
+                .expiryDate(Instant.now().plusMillis(tokenProvider.REFRESH_TOKEN_EXPIRE_TIME))
+                .build();
         return refreshTokenRepository.save(refreshToken).getId();
     }
 
@@ -62,10 +63,6 @@ public class RefreshTokenService {
 
         // 토큰이 만료되지 않았는지 검증
         Instant expiryDate = refreshToken.get().getExpiryDate();
-        if (expiryDate.isBefore(Instant.now())) {
-            return false;
-        }
-
-        return true;
+        return !expiryDate.isBefore(Instant.now());
     }
 }
