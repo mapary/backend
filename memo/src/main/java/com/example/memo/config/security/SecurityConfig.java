@@ -1,20 +1,16 @@
 package com.example.memo.config.security;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
-import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toStaticResources;
 
 import com.example.memo.config.security.jwt.JwtAccessDeniedHandler;
 import com.example.memo.config.security.jwt.JwtAuthTokenFilter;
 import com.example.memo.config.security.jwt.JwtAuthenticationEntryPoint;
 import com.example.memo.config.security.jwt.JwtTokenProvider;
-import com.example.memo.config.security.oauth.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -45,9 +41,12 @@ public class SecurityConfig {
             .authorizeHttpRequests(
                 auth -> auth
                     .requestMatchers("/api/*/auth/**").permitAll()
+                    .requestMatchers(toH2Console()).permitAll()
                     .anyRequest().authenticated()
             )
             .csrf(AbstractHttpConfigurer::disable)
+            .headers(headers -> headers
+                .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
             .exceptionHandling(handler -> handler
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(jwtAccessDeniedHandler))

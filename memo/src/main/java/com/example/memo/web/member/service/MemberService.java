@@ -1,9 +1,9 @@
 package com.example.memo.web.member.service;
 
+import com.example.memo.api.v1.auth.dto.SignUpRequest;
 import com.example.memo.exception.DuplicateMemberException;
 import com.example.memo.exception.MemberNotFoundException;
 import com.example.memo.web.member.domain.Member;
-import com.example.memo.web.member.dto.SignUpRequest;
 import com.example.memo.web.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -40,5 +40,10 @@ public class MemberService implements UserDetailsService {
         } catch (DataIntegrityViolationException e) {
             throw new DuplicateMemberException(member.getEmail());
         }
+    }
+
+    public Member findByEmail(String email) {
+        return memberRepository.findByEmail(email)
+            .orElseThrow(MemberNotFoundException::new);
     }
 }

@@ -1,7 +1,7 @@
 package com.example.memo.web.member.controller;
 
+import com.example.memo.api.v1.auth.dto.SignUpRequest;
 import com.example.memo.exception.DuplicateMemberException;
-import com.example.memo.web.member.dto.SignUpRequest;
 import com.example.memo.web.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
