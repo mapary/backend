@@ -89,15 +89,7 @@ public class AuthenticationApiController {
         }
     }
 
-    private record JwtTokens(String accessToken, String refreshToken) {
-        @JsonProperty("access_token")
-        String getAccessToken() {
-            return accessToken;
-        }
-
-        @JsonProperty("refresh_token")
-        String getRefreshToken() {
-            return refreshToken;
-        }
+    private record JwtTokens(@JsonProperty("access_token") String accessToken,
+                             @JsonProperty("refresh_token") String refreshToken) {
     }
 }
