@@ -1,4 +1,4 @@
-package com.example.memo.api.v1.auth.controller;
+package com.example.memo.api.auth.controller;
 
 import com.example.memo.api.auth.dto.RefreshTokenRequest;
 import com.example.memo.api.auth.dto.SignInRequest;
