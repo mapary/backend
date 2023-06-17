@@ -13,6 +13,7 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+    asciidoctorExt
 }
 
 repositories {
@@ -32,6 +33,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
     implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
+
+    asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 
     compileOnly 'io.jsonwebtoken:jjwt-api:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
@@ -53,7 +56,16 @@ tasks.named('test') {
 
 tasks.named('asciidoctor') {
     inputs.dir snippetsDir
-    sourceDir 'src/docs/asciidoc'
-    attributes 'snippets': snippetsDir
+    configurations 'asciidoctorExt'
     dependsOn test
+}
+
+tasks.register('copyDocs', Copy) {
+    dependsOn 'asciidoctor'
+    from "${asciidoctor.outputDir}"
+    into 'src/main/resources/static/api/docs'
+}
+
+tasks.named('bootJar') {
+    dependsOn copyDocs
 }

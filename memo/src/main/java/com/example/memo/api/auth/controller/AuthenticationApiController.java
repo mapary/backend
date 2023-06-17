@@ -4,11 +4,9 @@ import com.example.memo.api.auth.dto.RefreshTokenRequest;
 import com.example.memo.api.auth.dto.SignInRequest;
 import com.example.memo.api.auth.dto.SignUpRequest;
 import com.example.memo.api.auth.service.RefreshTokenService;
-import com.example.memo.api.common.dto.ApiResponse;
 import com.example.memo.api.common.exceptions.AuthException;
 import com.example.memo.api.common.exceptions.ErrorCode;
 import com.example.memo.api.member.service.MemberService;
-import com.example.memo.config.security.jwt.JwtAuthTokenFilter;
 import com.example.memo.config.security.jwt.JwtTokenProvider;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.Valid;
@@ -23,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URI;
+
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
@@ -35,11 +35,7 @@ public class AuthenticationApiController {
     @PostMapping("/login")
     public ResponseEntity<JwtTokens> authorize(@Valid @RequestBody SignInRequest request) {
         var authentication = authenticate(request.getEmail(), request.getPassword());
-
-        String accessToken = tokenProvider.createAccessToken(authentication);
-        String refreshToken = createAndSaveRefreshToken(request.getEmail(), authentication);
-
-        return createResponseEntity(accessToken, refreshToken);
+        return ResponseEntity.ok().body(generateJwtTokens(request.getEmail(), authentication));
     }
 
     @PostMapping("/reissue")
@@ -54,24 +50,20 @@ public class AuthenticationApiController {
         var authentication = new UsernamePasswordAuthenticationToken(
                 userDetails, null, userDetails.getAuthorities());
 
-        String newAccessToken = tokenProvider.createAccessToken(authentication);
-        String newRefreshToken = createAndSaveRefreshToken(username, authentication);
-
-        return createResponseEntity(newAccessToken, newRefreshToken);
+        return ResponseEntity.ok().body(generateJwtTokens(username, authentication));
     }
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest request) {
-        memberService.save(request);
-        return ResponseEntity.ok().body(ApiResponse.builder().message("회원가입에 성공했습니다.").status("success").build());
+        Long savedId = memberService.save(request);
+        return ResponseEntity.created(URI.create("/api/members/" + savedId)).build();
     }
 
-    private ResponseEntity<JwtTokens> createResponseEntity(String accessToken, String refreshToken) {
-        return ResponseEntity.ok()
-                .header(
-                        JwtAuthTokenFilter.AUTHORIZATION_HEADER,
-                        "Bearer " + accessToken
-                ).body(new JwtTokens(accessToken, refreshToken));
+    private JwtTokens generateJwtTokens(String username, Authentication authentication) {
+        String accessToken = tokenProvider.createAccessToken(authentication);
+        String refreshToken = createAndSaveRefreshToken(username, authentication);
+
+        return new JwtTokens(accessToken, refreshToken);
     }
 
     private Authentication authenticate(String email, String password) {
@@ -97,15 +89,7 @@ public class AuthenticationApiController {
         }
     }
 
-    private record JwtTokens(String accessToken, String refreshToken) {
-        @JsonProperty("access_token")
-        String getAccessToken() {
-            return accessToken;
-        }
-
-        @JsonProperty("refresh_token")
-        String getRefreshToken() {
-            return refreshToken;
-        }
+    private record JwtTokens(@JsonProperty("access_token") String accessToken,
+                             @JsonProperty("refresh_token") String refreshToken) {
     }
 }

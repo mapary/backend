@@ -2,10 +2,7 @@ package com.example.memo.api.common.dto;
 
 import com.example.memo.api.common.exceptions.ErrorCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 
@@ -38,7 +35,7 @@ public class ErrorResponse {
         return new ErrorResponse(code);
     }
 
-    public static ErrorResponse of(ErrorCode code, BindingResult bindingResult) {
+    public static ErrorResponse of(ErrorCode code, @NonNull BindingResult bindingResult) {
         return new ErrorResponse(code, FieldError.of(bindingResult));
     }
 

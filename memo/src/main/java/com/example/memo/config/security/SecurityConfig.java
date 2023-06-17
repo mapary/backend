@@ -40,7 +40,7 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(
                         auth -> auth
-                                .requestMatchers("/api/auth/**").permitAll()
+                                .requestMatchers("/api/auth/**", "/api/docs/**").permitAll()
                                 .requestMatchers(toH2Console()).permitAll()
                                 .anyRequest().authenticated()
                 )

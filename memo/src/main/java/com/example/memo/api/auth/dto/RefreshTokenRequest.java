@@ -1,5 +1,6 @@
 package com.example.memo.api.auth.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
@@ -8,6 +9,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RefreshTokenRequest {
     @NotEmpty
+    @JsonProperty("refresh_token")
     private String refreshToken;
 
     @Builder
