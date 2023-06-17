@@ -135,7 +135,7 @@ class AuthenticationApiControllerTest {
         mockMvc.perform(post("/api/auth/signup")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(request)))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andDo(document("signup",
                         requestFields(
                                 fieldWithPath("email").description("이메일"),

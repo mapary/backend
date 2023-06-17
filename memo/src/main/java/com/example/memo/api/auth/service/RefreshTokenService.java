@@ -2,6 +2,8 @@ package com.example.memo.api.auth.service;
 
 import com.example.memo.api.auth.domain.RefreshToken;
 import com.example.memo.api.auth.repository.RefreshTokenRepository;
+import com.example.memo.api.common.exceptions.ErrorCode;
+import com.example.memo.api.common.exceptions.InvalidValueException;
 import com.example.memo.api.member.domain.Member;
 import com.example.memo.api.member.service.MemberService;
 import com.example.memo.config.security.jwt.JwtTokenProvider;
@@ -43,7 +45,7 @@ public class RefreshTokenService {
             byte[] hash = md.digest(token.getBytes(StandardCharsets.UTF_8));
             return Base64.getEncoder().encodeToString(hash);
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Error hashing the token", e);
+            throw new InvalidValueException(ErrorCode.TOKEN_HASHING_ERROR);
         }
     }
 

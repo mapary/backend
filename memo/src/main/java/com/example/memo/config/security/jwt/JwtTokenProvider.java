@@ -1,19 +1,9 @@
 package com.example.memo.config.security.jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
-import java.security.Key;
-import java.sql.Date;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,6 +12,13 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
+
+import java.security.Key;
+import java.sql.Date;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -34,9 +31,9 @@ public class JwtTokenProvider {
     public final long ACCESS_TOKEN_EXPIRE_TIME;
 
     public JwtTokenProvider(
-        @Value("${security.jwt.base64-secret}") String base64Secret,
-        @Value("${security.jwt.refresh-expiration-time}") long refreshExpirationTime,
-        @Value("${security.jwt.access-expiration-time}") long accessExpirationTime
+            @Value("${security.jwt.base64-secret}") String base64Secret,
+            @Value("${security.jwt.refresh-expiration-time}") long refreshExpirationTime,
+            @Value("${security.jwt.access-expiration-time}") long accessExpirationTime
     ) {
         this.base64Secret = base64Secret;
         this.REFRESH_TOKEN_EXPIRE_TIME = refreshExpirationTime;
@@ -46,20 +43,21 @@ public class JwtTokenProvider {
     /**
      * 사용자가 인증에 성공하면 토큰을 발급한다. 주어진 클레임과 주체(토큰에서 사용자에 대한 식별값)를
      * 가지고 토큰을 만든다.
+     *
      * @param authentication 인증 정보
      * @return 토큰
      */
     public String createToken(Authentication authentication, long expirationTime) {
         String authorities = authentication.getAuthorities().stream()
-            .map(GrantedAuthority::getAuthority)
-            .collect(Collectors.joining(","));
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));
         return Jwts.builder()
-            .setSubject(authentication.getName())
-            .claim(AUTHORITIES_KEY, authorities)
-            .setIssuedAt(new Date(System.currentTimeMillis()))
-            .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
-            .signWith(key, SignatureAlgorithm.HS512)
-            .compact();
+                .setSubject(authentication.getName())
+                .claim(AUTHORITIES_KEY, authorities)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
+                .signWith(key, SignatureAlgorithm.HS512)
+                .compact();
     }
 
     public String createAccessToken(Authentication authentication) {
@@ -72,8 +70,8 @@ public class JwtTokenProvider {
 
     public String getUsernameFromToken(String token) {
         return getAllClaimsFromToken(token)
-            .getBody()
-            .getSubject();
+                .getBody()
+                .getSubject();
     }
 
     @PostConstruct
@@ -85,13 +83,14 @@ public class JwtTokenProvider {
     public Authentication getAuthentication(String token) {
         Claims claims = getAllClaimsFromToken(token).getBody();
         Collection<? extends GrantedAuthority> authorities =
-            Arrays.stream(Optional.ofNullable(claims.get(AUTHORITIES_KEY))
-                    .map(Object::toString)
-                    .orElse("")
-                    .split(","))
-                .filter(auth -> !auth.trim().isEmpty())
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+                Arrays.stream(Optional.ofNullable(claims.get(AUTHORITIES_KEY))
+                                .map(Object::toString)
+                                .orElse("")
+                                .split(","))
+                        .map(String::trim)
+                        .filter(auth -> !auth.isEmpty())
+                        .map(SimpleGrantedAuthority::new)
+                        .collect(Collectors.toList());
         User principal = new User(claims.getSubject(), "", authorities);
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
@@ -99,6 +98,7 @@ public class JwtTokenProvider {
 
     /**
      * 토큰이 유효한지 검증한다.
+     *
      * @param token 토큰
      * @return 유효하면 true, 아니면 false
      */
@@ -114,13 +114,14 @@ public class JwtTokenProvider {
 
     /**
      * 토큰에서 모든 클레임(claims)을 가져온다.
+     *
      * @param token 토큰
      * @return 클레임
      */
     private Jws<Claims> getAllClaimsFromToken(String token) {
         return Jwts.parserBuilder()
-            .setSigningKey(key)
-            .build()
-            .parseClaimsJws(token);
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token);
     }
 }
