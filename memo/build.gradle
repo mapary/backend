@@ -65,7 +65,3 @@ tasks.register('copyDocs', Copy) {
     from "${asciidoctor.outputDir}"
     into 'src/main/resources/static/api/docs'
 }
-
-tasks.named('bootJar') {
-    dependsOn copyDocs
-}
