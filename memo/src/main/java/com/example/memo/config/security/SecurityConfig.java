@@ -24,7 +24,6 @@ import static org.springframework.boot.autoconfigure.security.servlet.PathReques
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-
     private final JwtTokenProvider jwtTokenProvider;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
@@ -37,7 +36,6 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain restApiFilterChain(final HttpSecurity http) throws Exception {
         return http
-                .addFilterBefore(corsFilter, ChannelProcessingFilter.class)
                 .authorizeHttpRequests(
                         auth -> auth
                                 .requestMatchers("/api/auth/**", "/api/docs/**").permitAll()
